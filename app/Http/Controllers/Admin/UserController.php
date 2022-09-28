@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class UserController extends Controller
 {
@@ -79,6 +80,10 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
+        if(Gate::denies('edit-user')){
+            return redirect()->route('admin.users.index')
+                ->with('message', 'Can not perform this action');
+        }
         $user->roles()->sync($request->roles);
         
         return redirect()->route('admin.users.index');
@@ -92,6 +97,9 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
+        if(Gate::denies('delete-users')){
+            return redirect()->route('admin.users.index');
+        }
         $user->roles()->detach();
         $user->delete();
 

@@ -45,4 +45,14 @@ class User extends Authenticatable
     public function roles() {
         return $this->belongsToMany('App\Models\Role');
     }
+
+    /**
+     * check if user is admin
+     *
+     * @return boolean
+     */
+    public function isAdmin() {
+        
+       return $this->roles()->where("name", 'admin')->first();
+    }
 }

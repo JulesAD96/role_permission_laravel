@@ -18,6 +18,9 @@
                           </tr>
                         </thead>
                         <tbody>
+                            @if (Session::has('message'))
+                                <div class="alert alert-warning"> {{session('message')}} </div>
+                            @endif
                             @foreach ($users as $user)
                                 <tr>
                                     <th scope="row"> {{ $user->id }} </th>
